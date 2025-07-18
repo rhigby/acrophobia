@@ -39,22 +39,18 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="text-center py-16 px-6">
+         <h1 className="text-2xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mt-8 flex justify-center gap-4 text-3xl">
           <a
             href="https://acrophobia-play.onrender.com"
-            className="bg-red-600 text-white font-semibold px-6 py-3 rounded-md shadow hover:bg-red-500 transition"
+            className="bg-red-600 text-white font-semibold px-8 py-4 rounded-md shadow hover:bg-red-500 transition"
           >
             Play Now
           </a>
-          <a
-            href="https://acrophobia-play.onrender.com"
-            className="border border-orange-500 text-orange-300 px-6 py-3 rounded-md hover:bg-orange-800 transition"
-          >
-            Join Game
-          </a>
+          
         </div>
       </section>
 
