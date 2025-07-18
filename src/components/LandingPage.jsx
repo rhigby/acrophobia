@@ -72,7 +72,7 @@ export default function LandingPage() {
     return (
       <div className="mt-2 space-y-2 ml-4 border-l-2 border-blue-600 pl-4">
         {msg.replies.map((reply, i) => (
-          <div key={i} className="text-sm bg-blue-800 p-2 rounded">
+          <div key={i} className="text-sm bg-blue-800 p-2 rounded ml-4">
             <p className="text-blue-100 mb-1">{reply.content}</p>
             <p className="text-blue-300 text-xs">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
           </div>
@@ -147,8 +147,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="px-6 py-12 max-w-4xl mx-auto">
-        <h2 className="text-xl text-orange-300 mb-6">Message Board</h2>
+      <section className="py-16 px-6 text-center">
+        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
+            <div key={i} className="text-white font-medium text-center">
+              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700">
+        <h2 className="text-xl text-orange-300 mb-6 text-center">📬 Message Board</h2>
         <div className="mb-6">
           <input
             type="text"
