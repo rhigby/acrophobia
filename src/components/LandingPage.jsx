@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+expoimport { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
 export default function LandingPage() {
   const [stats, setStats] = useState({
     totalPlayers: 0,
@@ -11,7 +14,7 @@ export default function LandingPage() {
   });
 
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState({ title: "", content: "" });
+  const [newMessage, setNewMessage] = useState({ title: "", content: "", replyTo: null });
   const [currentPage, setCurrentPage] = useState(1);
   const messagesPerPage = 5;
 
@@ -54,7 +57,7 @@ export default function LandingPage() {
     })
       .then((res) => res.json())
       .then(() => {
-        setNewMessage({ title: "", content: "" });
+        setNewMessage({ title: "", content: "", replyTo: null });
         return fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
           credentials: "include"
         });
@@ -178,7 +181,13 @@ export default function LandingPage() {
             <li key={i} className="bg-blue-900 p-4 rounded border border-blue-700">
               <h3 className="font-semibold text-orange-300">{msg.title}</h3>
               <p className="text-blue-100 text-sm mb-2">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
-              <p className="text-blue-100">{msg.content}</p>
+              <p className="text-blue-100 mb-2">{msg.content}</p>
+              <button
+                onClick={() => setNewMessage({ ...newMessage, title: `Re: ${msg.title}`, replyTo: msg })}
+                className="text-sm text-orange-300 hover:underline"
+              >
+                Reply
+              </button>
             </li>
           ))}
         </ul>
@@ -208,6 +217,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
