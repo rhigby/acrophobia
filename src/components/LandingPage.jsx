@@ -1,4 +1,10 @@
 import { useEffect, useState, useRef } from "react";
+import { io } from "socket.io-client";
+
+const socket = io("https://acrophobia-backend-2.onrender.com", {
+  withCredentials: true,
+  transports: ["websocket"]
+});
 
 export default function LandingPage() {
   const [stats, setStats] = useState({
@@ -44,23 +50,42 @@ export default function LandingPage() {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    const handleNewMessage = (msg) => {
+      setMessages((prev) => {
+        const updated = [msg, ...prev];
+        const topLevel = updated.filter(m => !m.reply_to);
+        const repliesMap = {};
+        for (const m of updated) {
+          if (m.reply_to) {
+            if (!repliesMap[m.reply_to]) repliesMap[m.reply_to] = [];
+            repliesMap[m.reply_to].push(m);
+          }
+        }
+        return topLevel.map(msg => ({ ...msg, replies: repliesMap[msg.id] || [] }));
+      });
+    };
+
+    socket.on("new_message", handleNewMessage);
+    return () => socket.off("new_message", handleNewMessage);
+  }, []);
+
   const handlePostMessage = () => {
     if (!newMessage.title || !newMessage.content) return;
     fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify(newMessage),
+      body: JSON.stringify({
+        title: newMessage.title,
+        content: newMessage.content,
+        replyTo: newMessage.replyTo
+      })
     })
       .then((res) => res.json())
       .then(() => {
         setNewMessage({ title: "", content: "", replyTo: null });
-        return fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
-          credentials: "include"
-        });
       })
-      .then((res) => res.json())
-      .then(setMessages)
       .catch(console.error);
   };
 
@@ -105,6 +130,17 @@ export default function LandingPage() {
           >
             Play Now
           </a>
+        </div>
+      </section>
+
+      <section className="py-10 px-4 text-center">
+        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
+            <div key={i} className="text-white font-medium text-center">
+              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -153,20 +189,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
-            <div key={i} className="text-white font-medium text-center">
-              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
-      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700" ref={inputRef}>
+      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700">
         <h2 className="text-xl text-orange-300 mb-6 text-center">📬 Message Board</h2>
-        <div className="mb-6">
+        <div className="mb-6" ref={inputRef}>
           <input
             type="text"
             className="w-full mb-2 p-2 rounded text-black"
@@ -219,6 +246,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
