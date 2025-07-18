@@ -71,14 +71,14 @@ export default function LandingPage() {
   const renderReplies = (msg) => {
     if (!msg.replies || !msg.replies.length) return null;
     return (
-      <ul className="ml-4 mt-2 space-y-2 border-l border-blue-700 pl-4">
+      <div className="mt-2 space-y-2">
         {msg.replies.map((reply, i) => (
-          <li key={i} className="bg-blue-800 p-3 rounded text-sm">
+          <div key={i} className="mt-2 ml-4 p-2 rounded bg-blue-800 text-sm">
             <p className="text-blue-100 mb-1">{reply.content}</p>
-            <p className="text-blue-300 text-xs">by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
-          </li>
+            <p className="text-blue-300 text-xs">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     );
   };
 
@@ -196,7 +196,7 @@ export default function LandingPage() {
               <p className="text-blue-100 text-sm mb-2">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <p className="text-blue-100 mb-2">{msg.content}</p>
               <button
-                onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg })}
+                onClick={() => setNewMessage({ title: `Re: ${msg.title}", content: `@${msg.username} ", replyTo: msg })}
                 className="text-sm text-orange-300 hover:underline"
               >
                 Reply
@@ -231,6 +231,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
