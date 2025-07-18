@@ -17,7 +17,15 @@ export default function LandingPage() {
     const fetchStats = () => {
       fetch("https://acrophobia-backend-2.onrender.com/api/stats")
         .then((res) => res.json())
-        .then(setStats)
+        .then((data) => {
+          setStats({
+            totalPlayers: data.totalPlayers || 0,
+            gamesToday: data.gamesToday || 0,
+            roomsLive: data.roomsLive || 0,
+            top10Daily: Array.isArray(data.top10Daily) ? data.top10Daily : [],
+            top10Weekly: Array.isArray(data.top10Weekly) ? data.top10Weekly : [],
+          });
+        })
         .catch(console.error);
     };
     fetchStats();
@@ -127,7 +135,7 @@ export default function LandingPage() {
           <div>
             <h3 className="text-xl text-yellow-300 mb-4">🔥 Top 10 Today</h3>
             <ul className="space-y-2">
-              {stats.top10Daily.map((p, i) => (
+              {stats.top10Daily?.map((p, i) => (
                 <li key={i} className="bg-blue-900 px-4 py-2 rounded border border-blue-700 text-white flex justify-between">
                   <span>{i + 1}. {p.username}</span>
                   <span>{p.total_points} pts</span>
@@ -138,7 +146,7 @@ export default function LandingPage() {
           <div>
             <h3 className="text-xl text-yellow-300 mb-4">🏆 Top 10 This Week</h3>
             <ul className="space-y-2">
-              {stats.top10Weekly.map((p, i) => (
+              {stats.top10Weekly?.map((p, i) => (
                 <li key={i} className="bg-blue-900 px-4 py-2 rounded border border-blue-700 text-white flex justify-between">
                   <span>{i + 1}. {p.username}</span>
                   <span>{p.total_points} pts</span>
@@ -171,4 +179,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
