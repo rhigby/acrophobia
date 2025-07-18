@@ -164,9 +164,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700">
+      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700" ref={inputRef}>
         <h2 className="text-xl text-orange-300 mb-6 text-center">📬 Message Board</h2>
-        <div className="mb-6" ref={inputRef}>
+        <div className="mb-6">
           <input
             type="text"
             className="w-full mb-2 p-2 rounded text-black"
