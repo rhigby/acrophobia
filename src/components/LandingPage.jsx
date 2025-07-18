@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-expoimport { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-
 export default function LandingPage() {
   const [stats, setStats] = useState({
     totalPlayers: 0,
@@ -70,6 +67,20 @@ export default function LandingPage() {
   const startIdx = (currentPage - 1) * messagesPerPage;
   const currentMessages = messages.slice(startIdx, startIdx + messagesPerPage);
   const totalPages = Math.ceil(messages.length / messagesPerPage);
+
+  const renderReplies = (msg) => {
+    if (!msg.replies || !msg.replies.length) return null;
+    return (
+      <ul className="ml-4 mt-2 space-y-2 border-l border-blue-700 pl-4">
+        {msg.replies.map((reply, i) => (
+          <li key={i} className="bg-blue-800 p-3 rounded text-sm">
+            <p className="text-blue-100 mb-1">{reply.content}</p>
+            <p className="text-blue-300 text-xs">by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
@@ -145,7 +156,9 @@ export default function LandingPage() {
       <section className="py-16 px-6 text-center">
         <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
+          {[
+            "Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"
+          ].map((text, i) => (
             <div key={i} className="text-white font-medium text-center">
               <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
             </div>
@@ -183,11 +196,12 @@ export default function LandingPage() {
               <p className="text-blue-100 text-sm mb-2">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <p className="text-blue-100 mb-2">{msg.content}</p>
               <button
-                onClick={() => setNewMessage({ ...newMessage, title: `Re: ${msg.title}`, replyTo: msg })}
+                onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg })}
                 className="text-sm text-orange-300 hover:underline"
               >
                 Reply
               </button>
+              {renderReplies(msg)}
             </li>
           ))}
         </ul>
@@ -217,6 +231,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
