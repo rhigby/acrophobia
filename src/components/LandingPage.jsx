@@ -185,7 +185,7 @@ export default function LandingPage() {
               <p className="text-blue-100">{msg.content}</p>
               <p className="text-blue-300 text-sm mt-1">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <button
-                onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg })}
+               onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg.id })}
                 className="text-sm text-orange-300 hover:underline mt-1"
               >
                 Reply
