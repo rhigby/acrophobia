@@ -43,7 +43,7 @@ export default function LandingPage() {
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mt-8 flex justify-center gap-4 text-3xl">
           <a
             href="https://acrophobia-play.onrender.com"
             className="bg-red-600 text-white font-semibold px-12 py-6 rounded-md shadow hover:bg-red-500 transition"
