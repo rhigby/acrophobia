@@ -46,12 +46,17 @@ export default function LandingPage() {
  useEffect(() => {
   const username = localStorage.getItem("username");
   if (username) {
-    fetch("https://acrophobia-backend-2.onrender.com/api/login-cookie", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ username }),
-    });
+    fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      username: "testuser",
+      title: "Test Message",
+      content: "This is a test."
+    })
+  });
+
   }
 }, []);
 
