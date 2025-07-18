@@ -142,12 +142,12 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen text-white font-sans" >
-      <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center mb-3">
+      <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
 
       <section className="text-center py-6 px-5">
-        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
+        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange] mb-2">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
