@@ -33,20 +33,11 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
       {/* Sticky Header */}
-      <header className="sticky top-0 z-50 bg-blue-950 border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-2xl font-extrabold text-red-600 drop-shadow-[0_0_8px_orange]">ACROPHOBIA</h1>
+      <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
       </header>
 
       {/* Hero Section */}
       <section className="text-center py-16 px-6">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-6xl font-extrabold text-red-600 mb-4 tracking-widest drop-shadow-[0_0_10px_orange]"
-        >
-          ACROPHOBIA
-        </motion.h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
@@ -68,7 +59,7 @@ export default function LandingPage() {
 
       {/* Stats Section */}
       <section className="bg-blue-950 py-12 px-4 border-y border-blue-800">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-center items-center gap-6 text-center">
           <div>
             <h2 className="text-3xl font-bold text-orange-400 drop-shadow">{stats.totalPlayers}</h2>
             <p className="text-sm text-blue-200">Players Joined</p>
@@ -117,29 +108,22 @@ export default function LandingPage() {
       <section className="py-16 px-6 text-center">
         <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {[
-            "Get an Acronym",
-            "→",
-            "Write Something Clever",
-            "→",
-            "Vote for the Funniest",
-            "→",
-            "Climb the Leaderboard"
-          ].map((text, i) => (
-            <div key={i} className="text-white text-lg font-medium">
-              {text}
+          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
+            <div key={i} className="text-white text-lg font-medium text-center">
+              <span className="text-3xl">{text}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="text-center text-sm text-blue-400 py-8 border-t border-blue-800">
+      <footer className="bg-black text-center text-sm text-blue-400 py-8 border-t border-blue-800">
         © {new Date().getFullYear()} Acrophobia Game. All rights reserved.
       </footer>
     </div>
   );
 }
+
 
 
 
