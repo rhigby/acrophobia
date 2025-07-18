@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function LandingPage() {
   const [stats, setStats] = useState({
@@ -13,6 +13,7 @@ export default function LandingPage() {
   const [newMessage, setNewMessage] = useState({ title: "", content: "", replyTo: null });
   const [currentPage, setCurrentPage] = useState(1);
   const messagesPerPage = 5;
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const fetchStats = () => {
@@ -70,15 +71,20 @@ export default function LandingPage() {
   const renderReplies = (msg) => {
     if (!msg.replies || !msg.replies.length) return null;
     return (
-      <div className="mt-2 space-y-2">
+      <div className="mt-2 space-y-2 ml-4">
         {msg.replies.map((reply, i) => (
-          <div key={i} className="bg-blue-800 text-sm text-white rounded p-3 ml-6 border-l-4 border-blue-500">
+          <div key={i} className="bg-blue-800 text-sm text-white rounded p-3 border-l-4 border-blue-500">
             <p className="text-blue-100">{reply.content}</p>
             <p className="text-blue-300 text-xs mt-1">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
           </div>
         ))}
       </div>
     );
+  };
+
+  const handleReply = (msg) => {
+    setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg.id });
+    inputRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -160,7 +166,7 @@ export default function LandingPage() {
 
       <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700">
         <h2 className="text-xl text-orange-300 mb-6 text-center">📬 Message Board</h2>
-        <div className="mb-6">
+        <div className="mb-6" ref={inputRef}>
           <input
             type="text"
             className="w-full mb-2 p-2 rounded text-black"
@@ -185,7 +191,7 @@ export default function LandingPage() {
               <p className="text-blue-100">{msg.content}</p>
               <p className="text-blue-300 text-sm mt-1">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <button
-               onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg.id })}
+                onClick={() => handleReply(msg)}
                 className="text-sm text-orange-300 hover:underline mt-1"
               >
                 Reply
@@ -213,6 +219,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
