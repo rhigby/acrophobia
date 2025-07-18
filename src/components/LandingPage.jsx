@@ -70,11 +70,11 @@ export default function LandingPage() {
   const renderReplies = (msg) => {
     if (!msg.replies || !msg.replies.length) return null;
     return (
-      <div className="mt-2 space-y-2 ml-4 border-l-2 border-blue-600 pl-4">
+      <div className="mt-2 space-y-2">
         {msg.replies.map((reply, i) => (
-          <div key={i} className="text-sm bg-blue-800 p-2 rounded ml-4">
-            <p className="text-blue-100 mb-1">{reply.content}</p>
-            <p className="text-blue-300 text-xs">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
+          <div key={i} className="bg-blue-800 text-sm text-white rounded p-3 ml-6 border-l-4 border-blue-500">
+            <p className="text-blue-100">{reply.content}</p>
+            <p className="text-blue-300 text-xs mt-1">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
           </div>
         ))}
       </div>
@@ -213,6 +213,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
