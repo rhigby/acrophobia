@@ -12,6 +12,8 @@ export default function LandingPage() {
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({ title: "", content: "" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const messagesPerPage = 5;
 
   useEffect(() => {
     const fetchStats = () => {
@@ -42,26 +44,6 @@ export default function LandingPage() {
       .catch(console.error);
   }, []);
 
-
- useEffect(() => {
-  const username = localStorage.getItem("username");
-  if (username) {
-    fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      username: "testuser",
-      title: "Test Message",
-      content: "This is a test."
-    })
-  });
-
-  }
-}, []);
-
-
-
   const handlePostMessage = () => {
     if (!newMessage.title || !newMessage.content) return;
     fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
@@ -73,7 +55,6 @@ export default function LandingPage() {
       .then((res) => res.json())
       .then(() => {
         setNewMessage({ title: "", content: "" });
-        
         return fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
           credentials: "include"
         });
@@ -82,6 +63,10 @@ export default function LandingPage() {
       .then(setMessages)
       .catch(console.error);
   };
+
+  const startIdx = (currentPage - 1) * messagesPerPage;
+  const currentMessages = messages.slice(startIdx, startIdx + messagesPerPage);
+  const totalPages = Math.ceil(messages.length / messagesPerPage);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
@@ -92,7 +77,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="text-center py-16 px-6">
-         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
+        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
@@ -189,13 +174,31 @@ export default function LandingPage() {
           </button>
         </div>
         <ul className="space-y-4">
-          {messages.map((msg, i) => (
+          {currentMessages.map((msg, i) => (
             <li key={i} className="bg-blue-900 p-4 rounded border border-blue-700">
               <h3 className="font-semibold text-orange-300">{msg.title}</h3>
+              <p className="text-blue-100 text-sm mb-2">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <p className="text-blue-100">{msg.content}</p>
             </li>
           ))}
         </ul>
+        <div className="flex justify-center mt-6 gap-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 bg-blue-800 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="text-blue-200">Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 bg-blue-800 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
       </section>
 
       {/* Footer */}
@@ -205,6 +208,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
