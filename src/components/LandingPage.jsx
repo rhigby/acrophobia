@@ -39,7 +39,7 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="text-center py-16 px-6">
-        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_2px_orange]">The Fear Of Acronyms</h1>
+        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_2px_orange] mb-10">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
