@@ -146,7 +146,7 @@ export default function LandingPage() {
         <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
 
-      <section className="text-center py-16 px-6">
+      <section className="text-center py-6 px-5">
         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
@@ -160,7 +160,7 @@ export default function LandingPage() {
           </a>
         </div>
       </section>
-<section className="py-5 px-5 text-center">
+<section className="py-2 px-5 text-center">
         <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
