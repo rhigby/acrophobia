@@ -156,9 +156,7 @@ export default function LandingPage() {
       <section className="py-16 px-6 text-center">
         <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {[
-            "Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"
-          ].map((text, i) => (
+          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
             <div key={i} className="text-white font-medium text-center">
               <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
             </div>
@@ -196,7 +194,7 @@ export default function LandingPage() {
               <p className="text-blue-100 text-sm mb-2">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
               <p className="text-blue-100 mb-2">{msg.content}</p>
               <button
-                onClick={() => setNewMessage({ title: `Re: ${msg.title}", content: `@${msg.username} ", replyTo: msg })}
+                onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg })}
                 className="text-sm text-orange-300 hover:underline"
               >
                 Reply
@@ -231,6 +229,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
