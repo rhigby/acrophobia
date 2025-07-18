@@ -34,7 +34,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-orange-400">Acrophobia</h1>
+        <h1 className="text-2xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
 
       {/* Hero Section */}
@@ -111,7 +111,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
             <div key={i} className="text-white font-medium text-center">
-              <span className={text === "➜" ? "text-6xl text-orange-400" : "text-3xl"}>{text}</span>
+              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
             </div>
           ))}
         </div>
@@ -124,6 +124,8 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
 
 
 
