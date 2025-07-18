@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 export default function LandingPage() {
   const [stats, setStats] = useState({
@@ -88,7 +87,6 @@ export default function LandingPage() {
         <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
 
-      {/* Hero Section */}
       <section className="text-center py-16 px-6">
         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
@@ -104,7 +102,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
       <section className="bg-blue-950 py-12 px-4 border-y border-blue-800">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="bg-blue-900 border border-blue-700 rounded-lg p-6">
@@ -122,7 +119,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Leaderboard Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <h2 className="text-2xl font-semibold text-center text-orange-300 mb-10">Leaderboard</h2>
         <div className="grid md:grid-cols-2 gap-10">
@@ -150,18 +146,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-{/* How It Works */}
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
-            <div key={i} className="text-white font-medium text-center">
-              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-      {/* Message Board */}
+
       <section className="px-6 py-12 max-w-4xl mx-auto">
         <h2 className="text-xl text-orange-300 mb-6">Message Board</h2>
         <div className="mb-6">
@@ -188,6 +173,12 @@ export default function LandingPage() {
               <h3 className="text-lg font-semibold text-orange-300">{msg.title}</h3>
               <p className="text-blue-100">{msg.content}</p>
               <p className="text-blue-300 text-sm mt-1">by {msg.username || "Guest"} · {new Date(msg.timestamp).toLocaleString()}</p>
+              <button
+                onClick={() => setNewMessage({ title: `Re: ${msg.title}`, content: `@${msg.username} `, replyTo: msg })}
+                className="text-sm text-orange-300 hover:underline mt-1"
+              >
+                Reply
+              </button>
               {renderReplies(msg)}
             </div>
           ))}
@@ -211,6 +202,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
 
 
 
