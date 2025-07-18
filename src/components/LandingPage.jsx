@@ -53,6 +53,7 @@ export default function LandingPage() {
       .then((res) => res.json())
       .then(() => {
         setNewMessage({ title: "", content: "" });
+        console.log(data)
         return fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
           credentials: "include"
         });
