@@ -17,80 +17,73 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-indigo-900 text-white font-sans">
-      {/* Hero Section */}
-      <section className="text-center py-20 px-6">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-5xl font-extrabold mb-4"
-        >
-          Acrophobia
-        </motion.h1>
-        <p className="text-xl mb-6">The hilarious acronym battle game. Create. Laugh. Vote. Win.</p>
-        <div className="space-x-4">
-          <a
-            href="https://acrophobia-play.onrender.com"
-            className="bg-white text-indigo-900 font-bold px-6 py-2 rounded-full shadow-md"
-          >
-            Play Now
-          </a>
-          <a
-            href="https://acrophobia-play.onrender.com"
-            className="border border-white px-6 py-2 rounded-full"
-          >
-            Join Game
-          </a>
+    <div className="min-h-screen bg-black text-green-300 font-mono">
+      {/* Title Bar */}
+      <div className="text-center bg-red-600 text-black font-extrabold text-5xl py-6 shadow-md">
+        GMBD
+      </div>
+
+      {/* Round Info */}
+      <div className="text-center text-sm bg-gray-900 py-1 uppercase tracking-wider">
+        Face-Off Round 2
+      </div>
+
+      {/* Voting Prompt */}
+      <div className="text-center py-4">
+        <h2 className="text-lg">Great Miami's beaches, delightful</h2>
+        <p className="text-xl text-yellow-400 font-bold mt-2">Choose Your Favorite</p>
+        <div className="text-2xl text-white bg-gray-800 mt-3 py-2 px-4 inline-block rounded">
+          {stats.roomsLive > 0 ? "GREAT MEN BORN DEAD" : "Waiting for players..."}
         </div>
-      </section>
+      </div>
+
+      {/* Scores */}
+      <div className="flex justify-center gap-16 py-4 text-xl font-bold">
+        <div className="text-pink-500">playa_oicu/1 <span className="ml-2">5</span></div>
+        <div className="text-blue-400">Jackie <span className="ml-2">1</span></div>
+      </div>
 
       {/* Stats Section */}
-      <section className="bg-white text-indigo-900 py-12 px-6">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div>
-            <h2 className="text-4xl font-bold">{stats.totalPlayers}</h2>
-            <p className="text-lg">Players Joined</p>
-          </div>
-          <div>
-            <h2 className="text-4xl font-bold">{stats.gamesToday}</h2>
-            <p className="text-lg">Games Today</p>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">{stats.topPlayer.name}</h2>
-            <p className="text-sm">Top Player ({stats.topPlayer.score} pts)</p>
-          </div>
-          <div>
-            <h2 className="text-4xl font-bold">{stats.roomsLive}</h2>
-            <p className="text-lg">Rooms Live</p>
-          </div>
+      <div className="bg-gray-950 py-6 px-4 text-sm grid grid-cols-2 md:grid-cols-4 gap-4 text-center border-t border-b border-gray-800">
+        <div>
+          <div className="text-lg font-bold">{stats.totalPlayers}</div>
+          <div>Players Joined</div>
         </div>
-      </section>
+        <div>
+          <div className="text-lg font-bold">{stats.gamesToday}</div>
+          <div>Games Today</div>
+        </div>
+        <div>
+          <div className="text-lg font-bold">{stats.topPlayer.name}</div>
+          <div>Top Player</div>
+        </div>
+        <div>
+          <div className="text-lg font-bold">{stats.roomsLive}</div>
+          <div>Rooms Active</div>
+        </div>
+      </div>
 
-      {/* How to Play */}
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-3xl font-bold mb-8">How to Play</h2>
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            "Get an Acronym",
-            "Write Something Clever",
-            "Vote for the Funniest",
-            "Climb the Leaderboard",
-          ].map((step, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.05 }}
-              className="p-6 bg-indigo-800 rounded-xl shadow-lg"
-            >
-              <h3 className="text-xl font-semibold">{step}</h3>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* Footer Buttons */}
+      <div className="flex justify-center gap-6 py-10">
+        <a
+          href="https://acrophobia-play.onrender.com"
+          className="bg-green-500 text-black font-bold px-6 py-2 rounded hover:bg-green-400 transition"
+        >
+          Play Now
+        </a>
+        <a
+          href="https://acrophobia-play.onrender.com"
+          className="border border-green-500 text-green-300 px-6 py-2 rounded hover:bg-green-800"
+        >
+          Join Game
+        </a>
+      </div>
 
       {/* Footer */}
-      <footer className="text-center text-sm py-6 bg-indigo-950">
-        © {new Date().getFullYear()} Acrophobia Game. All rights reserved.
+      <footer className="text-center text-xs text-gray-500 pb-6">
+        © {new Date().getFullYear()} Acrophobia Game — All rights reserved
       </footer>
     </div>
   );
 }
+
