@@ -42,6 +42,20 @@ export default function LandingPage() {
       .catch(console.error);
   }, []);
 
+
+  useEffect(() => {
+  const username = localStorage.getItem("username");
+  if (!username) return;
+
+  fetch("https://acrophobia-backend-2.onrender.com/api/login-cookie", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ username })
+  }).catch(console.error);
+}, []);
+
+
   const handlePostMessage = () => {
     if (!newMessage.title || !newMessage.content) return;
     fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
