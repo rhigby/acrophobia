@@ -46,7 +46,7 @@ export default function LandingPage() {
         <div className="mt-8 flex justify-center gap-4 text-3xl">
           <a
             href="https://acrophobia-play.onrender.com"
-            className="bg-red-600 text-white font-semibold px-12 py-6 rounded-md shadow hover:bg-red-500 transition"
+            className="bg-red-600 text-white font-semibold px-6 py-3 rounded-md shadow hover:bg-red-500 transition"
           >
             Play Now
           </a>
