@@ -15,14 +15,14 @@ export default function LandingPage() {
     top10Weekly: [],
   });
 
+  const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({ title: "", content: "", replyTo: null });
   const [editingId, setEditingId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const messagesPerPage = 5;
   const inputRef = useRef(null);
-  const [username, setUsername] = useState(null);
-  
+
   useEffect(() => {
     const fetchStats = () => {
       fetch("https://acrophobia-backend-2.onrender.com/api/stats")
@@ -44,22 +44,26 @@ export default function LandingPage() {
   }, []);
 
   useEffect(() => {
-  socket.emit("check_session", (res) => {
-    if (res.authenticated) {
-      setUsername(res.username);
-    } else {
-      setUsername(null);
-    }
-  });
-}, []);
-  
-  useEffect(() => {
     fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
       credentials: "include"
     })
       .then((res) => res.json())
       .then(setMessages)
       .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    const checkSession = () => {
+      fetch("https://acrophobia-backend-2.onrender.com/api/me", {
+        credentials: "include"
+      })
+        .then(res => res.ok ? res.json() : null)
+        .then(setUser)
+        .catch(() => setUser(null));
+    };
+    checkSession();
+    const interval = setInterval(checkSession, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -83,6 +87,7 @@ export default function LandingPage() {
   }, []);
 
   const handlePostMessage = () => {
+    if (!user) return alert("Login required to post.");
     if (!newMessage.title || !newMessage.content) return;
 
     const endpoint = editingId ? `/api/messages/${editingId}` : "/api/messages";
@@ -155,6 +160,7 @@ export default function LandingPage() {
     <div className="min-h-screen text-white font-sans bg-gradient-to-br from-black via-blue-900 to-black">
       <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
+        {user ? <span className="text-blue-300 text-sm">Logged in as {user.username}</span> : <span className="text-red-400 text-sm">Not logged in</span>}
       </header>
 
       <section className="text-center py-6 px-5">
