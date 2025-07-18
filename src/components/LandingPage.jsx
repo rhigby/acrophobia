@@ -141,11 +141,20 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen text-white font-sans" style={{ backgroundImage: "url('/acrophobia-2_background.gif')", backgroundRepeat: "repeat" }}>
+    <div className="min-h-screen text-white font-sans" >
       <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
-
+<section className="py-16 px-6 text-center">
+        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
+            <div key={i} className="text-white font-medium text-center">
+              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="text-center py-16 px-6">
         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange]">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
@@ -161,7 +170,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-blue-950 py-12 px-4 border-y border-blue-800">
+      <section className="bg-blue-950 py-12 px-4 border-y border-blue-800" style={{ backgroundImage: "url('/acrophobia-2_background.gif')", backgroundRepeat: "repeat" }}>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="bg-blue-900 border border-blue-700 rounded-lg p-6">
             <h2 className="text-3xl font-bold text-orange-400 drop-shadow">{stats.totalPlayers}</h2>
@@ -206,18 +215,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="py-16 px-6 text-center">
-        <h2 className="text-2xl font-semibold mb-6 text-orange-300">How It Works</h2>
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {["Get an Acronym", "➜", "Write Something Clever", "➜", "Vote for the Funniest", "➜", "Climb the Leaderboard"].map((text, i) => (
-            <div key={i} className="text-white font-medium text-center">
-              <span className={text === "➜" ? "text-6xl text-orange-400 leading-tight" : "text-lg"}>{text}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
-      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700">
+      <section className="py-16 px-6 max-w-4xl mx-auto bg-blue-950 rounded-lg border border-blue-700 mb-5">
         <h2 className="text-xl text-orange-300 mb-6 text-center">📬 Message Board</h2>
         <div className="mb-6" ref={inputRef}>
           <input
