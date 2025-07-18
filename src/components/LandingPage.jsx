@@ -10,6 +10,9 @@ export default function LandingPage() {
     top10Weekly: [],
   });
 
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState({ title: "", content: "" });
+
   useEffect(() => {
     const fetchStats = () => {
       fetch("https://acrophobia-backend-2.onrender.com/api/stats")
@@ -29,6 +32,35 @@ export default function LandingPage() {
     const interval = setInterval(fetchStats, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
+      credentials: "include"
+    })
+      .then((res) => res.json())
+      .then(setMessages)
+      .catch(console.error);
+  }, []);
+
+  const handlePostMessage = () => {
+    if (!newMessage.title || !newMessage.content) return;
+    fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(newMessage),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setNewMessage({ title: "", content: "" });
+        return fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
+          credentials: "include"
+        });
+      })
+      .then((res) => res.json())
+      .then(setMessages)
+      .catch(console.error);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
@@ -50,7 +82,6 @@ export default function LandingPage() {
           >
             Play Now
           </a>
-          
         </div>
       </section>
 
@@ -111,6 +142,39 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Message Board */}
+      <section className="py-16 px-6 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-6 text-orange-300 text-center">📬 Message Board</h2>
+        <div className="mb-6">
+          <input
+            className="w-full mb-2 p-2 rounded bg-blue-800 text-white"
+            placeholder="Title"
+            value={newMessage.title}
+            onChange={(e) => setNewMessage({ ...newMessage, title: e.target.value })}
+          />
+          <textarea
+            className="w-full p-2 rounded bg-blue-800 text-white"
+            placeholder="What's on your mind?"
+            value={newMessage.content}
+            onChange={(e) => setNewMessage({ ...newMessage, content: e.target.value })}
+          />
+          <button
+            onClick={handlePostMessage}
+            className="mt-2 px-4 py-2 bg-red-600 rounded hover:bg-red-500"
+          >
+            Post
+          </button>
+        </div>
+        <ul className="space-y-4">
+          {messages.map((msg, i) => (
+            <li key={i} className="bg-blue-900 p-4 rounded border border-blue-700">
+              <h3 className="font-semibold text-orange-300">{msg.title}</h3>
+              <p className="text-blue-100">{msg.content}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Footer */}
