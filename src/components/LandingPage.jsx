@@ -34,38 +34,42 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_4px_orange]">Acrophobia</h1>
+        <h1 className="text-2xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
       </header>
 
       {/* Hero Section */}
       <section className="text-center py-16 px-6">
-        <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_2px_orange] mb-10">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
         </p>
-        <div className="mt-8 flex justify-center gap-4 text-3xl">
+        <div className="mt-8 flex justify-center gap-4">
           <a
             href="https://acrophobia-play.onrender.com"
-            className="bg-red-600 text-white font-semibold px-8 py-4 rounded-md shadow hover:bg-red-500 transition"
+            className="bg-red-600 text-white font-semibold px-6 py-3 rounded-md shadow hover:bg-red-500 transition"
           >
             Play Now
           </a>
-         
+          <a
+            href="https://acrophobia-play.onrender.com"
+            className="border border-orange-500 text-orange-300 px-6 py-3 rounded-md hover:bg-orange-800 transition"
+          >
+            Join Game
+          </a>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className="bg-blue-950 py-12 px-4 border-y border-blue-800">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-center items-center gap-6 text-center">
-          <div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div className="bg-blue-900 border border-blue-700 rounded-lg p-6">
             <h2 className="text-3xl font-bold text-orange-400 drop-shadow">{stats.totalPlayers}</h2>
             <p className="text-sm text-blue-200">Players Joined</p>
           </div>
-          <div>
+          <div className="bg-blue-900 border border-blue-700 rounded-lg p-6">
             <h2 className="text-3xl font-bold text-orange-400 drop-shadow">{stats.gamesToday}</h2>
             <p className="text-sm text-blue-200">Games Today</p>
           </div>
-          <div>
+          <div className="bg-blue-900 border border-blue-700 rounded-lg p-6">
             <h2 className="text-3xl font-bold text-orange-400 drop-shadow">{stats.roomsLive}</h2>
             <p className="text-sm text-blue-200">Active Rooms</p>
           </div>
