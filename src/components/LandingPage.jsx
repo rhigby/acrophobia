@@ -10,11 +10,18 @@ export default function LandingPage() {
   });
 
   useEffect(() => {
+  const fetchStats = () => {
     fetch("https://acrophobia-backend-2.onrender.com/api/stats")
       .then((res) => res.json())
       .then(setStats)
       .catch(console.error);
-  }, []);
+  };
+
+  fetchStats(); // Initial load
+  const interval = setInterval(fetchStats, 10000); // Refresh every 10s
+
+  return () => clearInterval(interval); // Cleanup
+}, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-950 to-blue-900 text-white font-sans">
