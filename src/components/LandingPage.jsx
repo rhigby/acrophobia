@@ -57,9 +57,12 @@ export default function LandingPage() {
 
   // Session check
  useEffect(() => {
-    fetch("https://acrophobia-backend-2.onrender.com/api/me", {
-      credentials: "include"
-    })
+   fetch("https://acrophobia-backend-2.onrender.com/api/me", {
+      headers: {
+    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    }
+  })
+
       .then(res => res.ok ? res.json() : null)
       .then((data) => {
         console.log("/api/me response:", data);
