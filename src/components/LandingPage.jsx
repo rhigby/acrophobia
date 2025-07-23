@@ -153,7 +153,7 @@ export default function LandingPage() {
   };
 
   return (
-   <div>
+  <div>
     {!authChecked ? (
       <div className="text-white text-center py-12 text-xl">Checking session...</div>
     ) : (
@@ -167,7 +167,7 @@ export default function LandingPage() {
           )}
         </header>
 
-      <section className="text-center py-6 px-5">
+        <section className="text-center py-6 px-5">
         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange] mb-2">The Fear Of Acronyms</h1>
         <p className="text-lg text-blue-100 max-w-xl mx-auto">
           The acronym battle game where wit wins. Submit hilarious expansions, vote for the best, and climb the leaderboard!
@@ -294,7 +294,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-     <footer className="bg-black text-center text-sm text-blue-400 py-8 border-t border-blue-800">
+        <footer className="bg-black text-center text-sm text-blue-400 py-8 border-t border-blue-800">
           © {new Date().getFullYear()} Acrophobia Game. All rights reserved.
         </footer>
       </div>
