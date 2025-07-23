@@ -157,15 +157,19 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen text-white font-sans bg-gradient-to-br from-black via-blue-900 to-black">
-      <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
-        {user && typeof user === "object" && user.username ? (
-  <span className="text-blue-300 text-sm">Logged in as {user.username}</span>
-) : (
-  <span className="text-red-400 text-sm">Not logged in</span>
-)}
-      </header>
+   <div>
+    {!authChecked ? (
+      <div className="text-white text-center py-12 text-xl">Checking session...</div>
+    ) : (
+      <div className="min-h-screen text-white font-sans bg-gradient-to-br from-black via-blue-900 to-black">
+        <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
+          {user && typeof user === "object" && user.username ? (
+            <span className="text-blue-300 text-sm">Logged in as {user.username}</span>
+          ) : (
+            <span className="text-red-400 text-sm">Not logged in</span>
+          )}
+        </header>
 
       <section className="text-center py-6 px-5">
         <h1 className="text-4xl font-bold text-red-600 drop-shadow-[0_0_3px_orange] mb-2">The Fear Of Acronyms</h1>
@@ -294,13 +298,13 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="bg-black text-center text-sm text-blue-400 py-8 border-t border-blue-800">
-        © {new Date().getFullYear()} Acrophobia Game. All rights reserved.
-      </footer>
-    </div>
-  );
-}
-
+     <footer className="bg-black text-center text-sm text-blue-400 py-8 border-t border-blue-800">
+          © {new Date().getFullYear()} Acrophobia Game. All rights reserved.
+        </footer>
+      </div>
+    )}
+  </div>
+);
 
 
 
