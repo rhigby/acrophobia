@@ -57,20 +57,31 @@ export default function LandingPage() {
 
   // Session check
  useEffect(() => {
-   fetch("https://acrophobia-backend-2.onrender.com/api/me", {
-      headers: {
-    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-    }
-  })
+    const token = localStorage.getItem("token");
 
-      .then(res => res.ok ? res.json() : null)
+    if (!token) {
+      console.warn("No token found in localStorage");
+      setAuthChecked(true);
+      return;
+    }
+
+    fetch("https://acrophobia-backend-2.onrender.com/api/me", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log("/api/me status:", res.status);
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
       .then((data) => {
         console.log("/api/me response:", data);
         setUser(data);
         setAuthChecked(true);
       })
       .catch((err) => {
-        console.error("Error fetching /api/me:", err);
+        console.warn("Auth check failed:", err);
         setUser(null);
         setAuthChecked(true);
       });
