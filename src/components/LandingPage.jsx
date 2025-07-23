@@ -56,16 +56,18 @@ export default function LandingPage() {
   }, []);
 
   // Session check
-  useEffect(() => {
+ useEffect(() => {
     fetch("https://acrophobia-backend-2.onrender.com/api/me", {
       credentials: "include"
     })
       .then(res => res.ok ? res.json() : null)
       .then((data) => {
+        console.log("/api/me response:", data);
         setUser(data);
         setAuthChecked(true);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Error fetching /api/me:", err);
         setUser(null);
         setAuthChecked(true);
       });
