@@ -24,6 +24,7 @@ export default function LandingPage() {
   const messagesPerPage = 5;
   const inputRef = useRef(null);
 
+  // Fetch stats
   useEffect(() => {
     const fetchStats = () => {
       fetch("https://acrophobia-backend-2.onrender.com/api/stats")
@@ -44,6 +45,7 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Fetch messages
   useEffect(() => {
     fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
       credentials: "include"
@@ -53,13 +55,14 @@ export default function LandingPage() {
       .catch(console.error);
   }, []);
 
+  // Session check
   useEffect(() => {
     fetch("https://acrophobia-backend-2.onrender.com/api/me", {
       credentials: "include"
     })
       .then(res => res.ok ? res.json() : null)
-      .then((user) => {
-        setUser(user);
+      .then((data) => {
+        setUser(data);
         setAuthChecked(true);
       })
       .catch(() => {
@@ -68,6 +71,7 @@ export default function LandingPage() {
       });
   }, []);
 
+  // Socket handler
   useEffect(() => {
     const handleNewMessage = (msg) => {
       setMessages((prev) => {
@@ -88,6 +92,7 @@ export default function LandingPage() {
     return () => socket.off("new_message", handleNewMessage);
   }, []);
 
+  // Message interaction methods (post, edit, like, delete)
   const handlePostMessage = () => {
     if (!user) return alert("Login required to post.");
     if (!newMessage.title || !newMessage.content) return;
@@ -117,9 +122,7 @@ export default function LandingPage() {
     fetch(`https://acrophobia-backend-2.onrender.com/api/messages/${id}`, {
       method: "DELETE",
       credentials: "include"
-    })
-      .then((res) => res.json())
-      .catch(console.error);
+    }).then((res) => res.json()).catch(console.error);
   };
 
   const handleLike = (id) => {
@@ -127,24 +130,6 @@ export default function LandingPage() {
       method: "POST",
       credentials: "include"
     }).catch(console.error);
-  };
-
-  const startIdx = (currentPage - 1) * messagesPerPage;
-  const currentMessages = messages.slice(startIdx, startIdx + messagesPerPage);
-  const totalPages = Math.ceil(messages.length / messagesPerPage);
-
-  const renderReplies = (msg) => {
-    if (!msg.replies || !msg.replies.length) return null;
-    return (
-      <div className="mt-2 space-y-2 ml-4">
-        {msg.replies.map((reply, i) => (
-          <div key={i} className="bg-blue-800 text-sm text-white rounded p-3 border-l-4 border-blue-500">
-            <p className="text-blue-100">{reply.content}</p>
-            <p className="text-blue-300 text-xs mt-1">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
-          </div>
-        ))}
-      </div>
-    );
   };
 
   const handleReply = (msg) => {
@@ -158,13 +143,31 @@ export default function LandingPage() {
     inputRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const startIdx = (currentPage - 1) * messagesPerPage;
+  const currentMessages = messages.slice(startIdx, startIdx + messagesPerPage);
+  const totalPages = Math.ceil(messages.length / messagesPerPage);
+
+  const renderReplies = (msg) => {
+    if (!msg.replies?.length) return null;
+    return (
+      <div className="mt-2 space-y-2 ml-4">
+        {msg.replies.map((reply, i) => (
+          <div key={i} className="bg-blue-800 text-sm text-white rounded p-3 border-l-4 border-blue-500">
+            <p className="text-blue-100">{reply.content}</p>
+            <p className="text-blue-300 text-xs mt-1">↳ by {reply.username || "Guest"} · {new Date(reply.timestamp).toLocaleString()}</p>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div>
       {!authChecked ? (
         <div className="text-white text-center py-12 text-xl">Checking session...</div>
       ) : (
-        <div className="min-h-screen text-white font-sans bg-gradient-to-br from-black via-blue-900 to-black">
-         <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
+        <div>
+             <header className="sticky top-0 z-50 bg-black border-b border-blue-800 shadow-md py-4 px-6 flex justify-between items-center">
           <h1 className="text-3xl font-bold text-red-600 drop-shadow-[0_0_6px_orange]">Acrophobia</h1>
           {user && typeof user === "object" && user.username ? (
             <span className="text-blue-300 text-sm">Logged in as {user.username}</span>
@@ -298,7 +301,7 @@ export default function LandingPage() {
             </button>
           ))}
         </div>
-      </section>
+      </section> 
         </div>
       )}
     </div>
