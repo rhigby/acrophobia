@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
+import Cookies from "js-cookie";
 
 const socket = io("https://acrophobia-backend-2.onrender.com", {
   withCredentials: true,
@@ -16,6 +17,7 @@ export default function LandingPage() {
   });
 
   const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({ title: "", content: "", replyTo: null });
   const [editingId, setEditingId] = useState(null);
@@ -24,51 +26,42 @@ export default function LandingPage() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const fetchStats = () => {
-      fetch("https://acrophobia-backend-2.onrender.com/api/stats")
-        .then((res) => res.json())
-        .then((data) => {
-          setStats({
-            totalPlayers: data.totalPlayers || 0,
-            gamesToday: data.gamesToday || 0,
-            roomsLive: data.roomsLive || 0,
-            top10Daily: Array.isArray(data.top10Daily) ? data.top10Daily : [],
-            top10Weekly: Array.isArray(data.top10Weekly) ? data.top10Weekly : [],
-          });
-        })
-        .catch(console.error);
-    };
-    fetchStats();
-    const interval = setInterval(fetchStats, 10000);
-    return () => clearInterval(interval);
+    fetch("https://acrophobia-backend-2.onrender.com/api/stats")
+      .then(res => res.json())
+      .then(setStats)
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
-    fetch("https://acrophobia-backend-2.onrender.com/api/messages", {
-      credentials: "include"
+    const token = localStorage.getItem("acrophobia_token");
+    if (!token) return setAuthChecked(true);
+
+    fetch("https://acrophobia-backend-2.onrender.com/api/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
-      .then((res) => res.json())
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        setUser(data);
+        setAuthChecked(true);
+      })
+      .catch(() => {
+        localStorage.removeItem("acrophobia_token");
+        setAuthChecked(true);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch("https://acrophobia-backend-2.onrender.com/api/messages")
+      .then(res => res.json())
       .then(setMessages)
       .catch(console.error);
   }, []);
 
   useEffect(() => {
-    const checkSession = () => {
-      fetch("https://acrophobia-backend-2.onrender.com/api/me", {
-        credentials: "include"
-      })
-        .then(res => res.ok ? res.json() : null)
-        .then(setUser)
-        .catch(() => setUser(null));
-    };
-    checkSession();
-    const interval = setInterval(checkSession, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     const handleNewMessage = (msg) => {
-      setMessages((prev) => {
+      setMessages(prev => {
         const updated = [msg, ...prev];
         const topLevel = updated.filter(m => !m.reply_to);
         const repliesMap = {};
@@ -87,7 +80,8 @@ export default function LandingPage() {
   }, []);
 
   const handlePostMessage = () => {
-    if (!user) return alert("Login required to post.");
+    const token = localStorage.getItem("acrophobia_token");
+    if (!user || !token) return alert("Login required to post.");
     if (!newMessage.title || !newMessage.content) return;
 
     const endpoint = editingId ? `/api/messages/${editingId}` : "/api/messages";
@@ -95,15 +89,17 @@ export default function LandingPage() {
 
     fetch(`https://acrophobia-backend-2.onrender.com${endpoint}`, {
       method,
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         title: newMessage.title,
         content: newMessage.content,
         replyTo: newMessage.replyTo
       })
     })
-      .then((res) => res.json())
+      .then(res => res.json())
       .then(() => {
         setNewMessage({ title: "", content: "", replyTo: null });
         setEditingId(null);
